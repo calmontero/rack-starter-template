@@ -11,6 +11,14 @@ class Application
         [ books.to_json ]
       ]
 
+    elsif req.path.match(/books/) && req.post?
+      body = JSON.parse(req.body.read)
+      book = Book.create(body)
+      return [
+        200, { 'Content-Type' => 'application/json' }, 
+        [ book.to_json ]
+      ]
+
     elsif req.path == "/authors" && req.get?
       authors = Author.all
       return [
