@@ -1,0 +1,14 @@
+class CreatePrograms < ActiveRecord::Migration[5.2]
+  def change
+    create_table :programs do |t|
+      t.string :desc
+      t.string :sponsor
+      t.integer :sits
+      t.integer :room
+      t.time :startDate
+      t.time :endDate
+      t.string :image
+      t.boolean :status
+    end
+  end
+end
