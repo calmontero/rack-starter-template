@@ -10,22 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_07_202636) do
-
-  create_table "authors", force: :cascade do |t|
-    t.string "name"
-    t.string "bio"
-  end
-
-  create_table "books", force: :cascade do |t|
-    t.string "title"
-    t.integer "year"
-    t.integer "pages"
-    t.integer "rating"
-    t.boolean "read"
-    t.integer "author_id"
-    t.index ["author_id"], name: "index_books_on_author_id"
-  end
+ActiveRecord::Schema.define(version: 2021_08_08_152810) do
 
   create_table "fans", force: :cascade do |t|
     t.string "name"

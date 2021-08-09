@@ -31,17 +31,10 @@ class Application
       id = req.path.split("/")[2]
       begin
         program = Program.find(id)
-        registers = program.registers
-        program_res = {
-            desc: program.desc,
-            registers: registers
-        }
-
         return [
           200, { 'Content-Type' => 'application/json' }, 
-          [ program_res.to_json ]
+          [ program.to_json ]
         ]
-
       rescue
         return [
           404, 
@@ -123,16 +116,9 @@ class Application
       id = req.path.split("/")[2]
       begin
         fan = Fan.find(id)
-        registers = fan.registers
-        fan_res = {
-          name: fan.name,
-          email: fan.email,
-          registers: registers
-        }
-
         return [
           200, { 'Content-Type' => 'application/json' }, 
-          [ fan_res.to_json ]
+          [ fan.to_json ]
         ]
 
       rescue
@@ -189,8 +175,107 @@ class Application
       end
     end
  
-
 ###############################################
+    #REGISTER ROUTES
+    
+    #Registers of Fans by Program Show 
+    if req.path.match("/registers/") && req.get?
+      id = req.path.split("/")[2]
+      begin
+        program = Program.find(id)
+        registers = program.registers
+        program_res = {
+            desc: program.desc,
+            registers: registers
+        }
+
+        return [
+          200, { 'Content-Type' => 'application/json' }, 
+          [ program_res.to_json ]
+        ]
+
+      rescue
+        return [
+          404, 
+          {'Content-Type' => 'application/json'}, 
+        [{message: "Program not found"}.to_json]]
+      end
+    end
+
+    #Registers of Program by Fan Show 
+    if req.path.match("/registersfan/") && req.get?
+      id = req.path.split("/")[2]
+      begin
+        fan = Fan.find(id)
+        registers = fan.registers
+        fan_res = {
+            name: fan.name,
+            registers: registers
+        }
+
+        return [
+          200, { 'Content-Type' => 'application/json' }, 
+          [ fan_res.to_json ]
+        ]
+
+      rescue
+        return [
+          404, 
+          {'Content-Type' => 'application/json'}, 
+        [{message: "Program not found"}.to_json]]
+      end
+    end
+
+    #Register Program Create
+    if req.path == ("/registers") && req.post?
+      body = JSON.parse(req.body.read)
+      register = Register.create(body)
+      return [
+        201, { 'Content-Type' => 'application/json' }, 
+        [ register.to_json ]
+      ]
+
+    end
+
+    #Register Fans of a Program Delete
+    if req.path.match("/registersfan/") && req.delete?
+      id = req.path.split("/")[2]
+      begin
+        Register.where(:program_id => id).destroy_all
+        return [
+          200, 
+          { 'Content-Type' => 'application/json' },
+          [ {message: "Register Destroyed"}.to_json]
+        ]
+
+      rescue
+        return [
+          404, 
+          {'Content-Type' => 'application/json'}, 
+          [{message: "Register not found"}.to_json]]
+      end
+    end
+
+    #Register Program of a Fan Delete
+    if req.path.match("/registersprogram/") && req.delete?
+      id = req.path.split("/")[2]
+      begin
+        register = Register.find(id)
+        register.destroy
+        return [
+          200, 
+          { 'Content-Type' => 'application/json' },
+          [ {message: "Register Destroyed"}.to_json]
+        ]
+
+      rescue
+        return [
+          404, 
+          {'Content-Type' => 'application/json'}, 
+          [{message: "Register not found"}.to_json]]
+      end
+    end
+
     res.finish
   end
 
