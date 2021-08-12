@@ -10,27 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_152810) do
+ActiveRecord::Schema.define(version: 2021_08_11_230539) do
 
   create_table "fans", force: :cascade do |t|
     t.string "name"
+    t.integer "phone_number"
     t.string "email"
   end
 
   create_table "programs", force: :cascade do |t|
+    t.string "name"
     t.string "desc"
     t.string "sponsor"
-    t.integer "sits"
+    t.integer "quantity_fan"
+    t.integer "sits_available"
     t.integer "room"
-    t.time "startDate"
-    t.time "endDate"
-    t.string "image"
+    t.date "date"
+    t.time "startTime"
+    t.time "endTime"
+    t.string "image_url"
     t.boolean "status"
   end
 
   create_table "registers", force: :cascade do |t|
     t.integer "program_id"
     t.integer "fan_id"
+    t.date "register_date"
   end
 
 end

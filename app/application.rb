@@ -178,6 +178,15 @@ class Application
 ###############################################
     #REGISTER ROUTES
     
+    #Registers Index
+    if req.path == ("/registers") && req.get?
+      return [
+        200, { 'Content-Type' => 'application/json' }, 
+        [ Register.all.to_json ]
+      ]
+
+    end
+
     #Registers of Fans by Program Show 
     if req.path.match("/registers/") && req.get?
       id = req.path.split("/")[2]
@@ -188,7 +197,6 @@ class Application
             desc: program.desc,
             registers: registers
         }
-
         return [
           200, { 'Content-Type' => 'application/json' }, 
           [ program_res.to_json ]

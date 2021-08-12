@@ -8,20 +8,23 @@ programs = ["Spiderman No Way Home", "Shazam 2", "Star Wars", "Ghostbusters Alte
 
 # Create sample programs
 programs.each do |program|
-    Program.create(desc: program, 
+    Program.create(name: program, 
+      desc: "An inside look at the highly-anticipated upcoming film Snake Eyes: G.I Joe Origins—with special content and exclusive interviews",
       sponsor: "Marvel", 
-      sits: 10, 
+      quantity_fan: 10, 
+      sits_available: 10,
       room: Faker::Number.between(from: 1, to: 10), 
-      startDate: DateTime.strptime("08/14/2021 10:00", "%m/%d/%Y %H:%M"),
-      endDate: DateTime.strptime("08/14/2021 13:00", "%m/%d/%Y %H:%M"),
-      image: "https://image.shutterstock.com/z/stock-photo-moscow-russia-march-marvel-logo-in-hamleys-store-marvel-comics-group-is-a-publisher-of-1073397620.jpg",
+      date: "08/30/2021",
+      startTime: DateTime.now,
+      endTime: DateTime.now,
+      image_url: "https://image.shutterstock.com/z/stock-photo-moscow-russia-march-marvel-logo-in-hamleys-store-marvel-comics-group-is-a-publisher-of-1073397620.jpg",
       status: 1)
 end
 
 puts "Seeding fan..."
 # Create 10 random Fans
 10.times do
-    Fan.create(name: Faker::Name.name, email: Faker::Internet.email)
+    Fan.create(name: Faker::Name.name, phone_number: Faker::PhoneNumber.cell_phone, email: Faker::Internet.email)
 end
 
 puts "Seeding registers..."
