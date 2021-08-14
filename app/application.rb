@@ -6,34 +6,34 @@ class Application
 
     #PROGRAMS ROUTES
 
-    #Programs Index
-    if req.path == ("/programs") && req.get?
+    #Publishers Index
+    if req.path == ("/publishers") && req.get?
       return [
         200, { 'Content-Type' => 'application/json' }, 
-        [ Program.all.to_json ]
+        [ Publisher.all.to_json ]
       ]
 
     end
 
-    #Program Create
-    if req.path == ("/programs") && req.post?
+    #Publisher Create
+    if req.path == ("/publishers") && req.post?
       body = JSON.parse(req.body.read)
-      program = Program.create(body)
+      publisher = Publisher.create(body)
       return [
         201, { 'Content-Type' => 'application/json' }, 
-        [ program.to_json ]
+        [ publisher.to_json ]
       ]
 
     end
 
-    #Program Show
-    if req.path.match("/programs/") && req.get?
+    #Publisher Show
+    if req.path.match("/publishers/") && req.get?
       id = req.path.split("/")[2]
       begin
-        program = Program.find(id)
+        publisher = Publisher.find(id)
         return [
           200, { 'Content-Type' => 'application/json' }, 
-          [ program.to_json ]
+          [ publisher.to_json ]
         ]
       rescue
         return [
@@ -43,24 +43,24 @@ class Application
       end
     end
 
-    #Program Update
-    if req.path.match("/programs/") && req.patch?
+    #Publisher Update
+    if req.path.match("/publishers/") && req.patch?
       id = req.path.split("/")[2]
       body = JSON.parse(req.body.read)
       begin
-        program = Program.find(id)
-        program.update(body)
+        publisher = Publisher.find(id)
+        publisher.update(body)
         return [
           202, 
           { 'Content-Type' => 'application/json' },
-          [ program.to_json]
+          [ publisher.to_json]
         ]
 
       rescue ActiveRecord::RecordNotFound
         return [
           404, 
           {'Content-Type' => 'application/json'}, 
-          [{message: "Program not found"}.to_json]]
+          [{message: "Publisher not found"}.to_json]]
       rescue ActiveRecord::UnknownAttributeError
         return [
           422, 
@@ -69,84 +69,84 @@ class Application
       end
     end
 
-    #Program Delete
-    if req.path.match("/programs/") && req.delete?
+    #Publisher Delete
+    if req.path.match("/publishers/") && req.delete?
       id = req.path.split("/")[2]
       begin
-        program = Program.find(id)
-        program.destroy
+        publisher = Publisher.find(id)
+        publisher.destroy
         return [
           200, 
           { 'Content-Type' => 'application/json' },
-          [ {message: "Program Destroyed"}.to_json]
+          [ {message: "Publisher Destroyed"}.to_json]
         ]
 
       rescue
         return [
           404, 
           {'Content-Type' => 'application/json'}, 
-          [{message: "Program not found"}.to_json]]
+          [{message: "Publisher not found"}.to_json]]
       end
     end
 ###############################################
-    #FANS ROUTES
+    #CHARACTERS ROUTES
 
-    #Fans Index
-    if req.path == ("/fans") && req.get?
+    #Character Index
+    if req.path == ("/characters") && req.get?
       return [
         200, { 'Content-Type' => 'application/json' }, 
-        [ Fan.all.to_json ]
+        [ Character.all.to_json ]
       ]
 
     end
 
-    #Fan Create
-    if req.path == ("/fans") && req.post?
+    #Character Create
+    if req.path == ("/characters") && req.post?
       body = JSON.parse(req.body.read)
-      fan = Fan.create(body)
+      character = Character.create(body)
       return [
         201, { 'Content-Type' => 'application/json' }, 
-        [ fan.to_json ]
+        [ character.to_json ]
       ]
 
     end
 
-    #Fan Show
-    if req.path.match("/fans/") && req.get?
+    #Character Show
+    if req.path.match("/characters/") && req.get?
       id = req.path.split("/")[2]
       begin
-        fan = Fan.find(id)
+        character = Character.find(id)
         return [
           200, { 'Content-Type' => 'application/json' }, 
-          [ fan.to_json ]
+          [ character.to_json ]
         ]
 
       rescue
         return [
           404, 
           {'Content-Type' => 'application/json'}, 
-        [{message: "Fan not found"}.to_json]]
+        [{message: "Character not found"}.to_json]]
       end
     end
 
-    #Fan Update
-    if req.path.match("/fans/") && req.patch?
+    #Character Update
+    if req.path.match("/characters/") && req.patch?
       id = req.path.split("/")[2]
       body = JSON.parse(req.body.read)
       begin
-        fan = Fan.find(id)
-        fan.update(body)
+        character = Character.find(id)
+        character.update(body)
         return [
           202, 
           { 'Content-Type' => 'application/json' },
-          [ fan.to_json]
+          [ character.to_json]
         ]
 
       rescue ActiveRecord::RecordNotFound
         return [
           404, 
           {'Content-Type' => 'application/json'}, 
-          [{message: "Fan not found"}.to_json]]
+          [{message: "Character not found"}.to_json]]
       rescue ActiveRecord::UnknownAttributeError
         return [
           422, 
@@ -155,135 +155,26 @@ class Application
       end
     end
 
-    #Fan Delete
-    if req.path.match("/fans/") && req.delete?
+    #Character Delete
+    if req.path.match("/characters/") && req.delete?
       id = req.path.split("/")[2]
       begin
-        fan = Fan.find(id)
-        fan.destroy
+        character = Character.find(id)
+        character.destroy
         return [
           200, 
           { 'Content-Type' => 'application/json' },
-          [ {message: "Fan Destroyed"}.to_json]
+          [ {message: "Character Destroyed"}.to_json]
         ]
 
       rescue
         return [
           404, 
           {'Content-Type' => 'application/json'}, 
-          [{message: "Fan not found"}.to_json]]
+          [{message: "Character not found"}.to_json]]
       end
     end
  
-###############################################
-    #REGISTER ROUTES
-    
-    #Registers Index
-    if req.path == ("/registers") && req.get?
-      return [
-        200, { 'Content-Type' => 'application/json' }, 
-        [ Register.all.to_json ]
-      ]
-
-    end
-
-    #Registers of Fans by Program Show 
-    if req.path.match("/registers/") && req.get?
-      id = req.path.split("/")[2]
-      begin
-        program = Program.find(id)
-        registers = program.registers
-        program_res = {
-            desc: program.desc,
-            registers: registers
-        }
-        return [
-          200, { 'Content-Type' => 'application/json' }, 
-          [ program_res.to_json ]
-        ]
-
-      rescue
-        return [
-          404, 
-          {'Content-Type' => 'application/json'}, 
-        [{message: "Program not found"}.to_json]]
-      end
-    end
-
-    #Registers of Program by Fan Show 
-    if req.path.match("/registersfan/") && req.get?
-      id = req.path.split("/")[2]
-      begin
-        fan = Fan.find(id)
-        registers = fan.registers
-        fan_res = {
-            name: fan.name,
-            registers: registers
-        }
-
-        return [
-          200, { 'Content-Type' => 'application/json' }, 
-          [ fan_res.to_json ]
-        ]
-
-      rescue
-        return [
-          404, 
-          {'Content-Type' => 'application/json'}, 
-        [{message: "Program not found"}.to_json]]
-      end
-    end
-
-    #Register Program Create
-    if req.path == ("/registers") && req.post?
-      body = JSON.parse(req.body.read)
-      register = Register.create(body)
-      return [
-        201, { 'Content-Type' => 'application/json' }, 
-        [ register.to_json ]
-      ]
-
-    end
-
-    #Register Fans of a Program Delete
-    if req.path.match("/registersfan/") && req.delete?
-      id = req.path.split("/")[2]
-      begin
-        Register.where(:program_id => id).destroy_all
-        return [
-          200, 
-          { 'Content-Type' => 'application/json' },
-          [ {message: "Register Destroyed"}.to_json]
-        ]
-
-      rescue
-        return [
-          404, 
-          {'Content-Type' => 'application/json'}, 
-          [{message: "Register not found"}.to_json]]
-      end
-    end
-
-    #Register Program of a Fan Delete
-    if req.path.match("/registersprogram/") && req.delete?
-      id = req.path.split("/")[2]
-      begin
-        register = Register.find(id)
-        register.destroy
-        return [
-          200, 
-          { 'Content-Type' => 'application/json' },
-          [ {message: "Register Destroyed"}.to_json]
-        ]
-
-      rescue
-        return [
-          404, 
-          {'Content-Type' => 'application/json'}, 
-          [{message: "Register not found"}.to_json]]
-      end
-    end
-
     res.finish
   end
 

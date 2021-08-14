@@ -1,43 +1,29 @@
 puts "Clearing old data..."
-Program.destroy_all
-Fan.destroy_all
-Register.destroy_all
+Publisher.destroy_all
+Character.destroy_all
 
-puts "Seeding program..."
-programs = ["Spiderman No Way Home", "Shazam 2", "Star Wars", "Ghostbusters Alterlife"]
+puts "Seeding publisher..."
+publishers = ["Marvel Comics", "DC Comics", "Dark Horse Comics", "Image Comics"]
 
 # Create sample programs
-programs.each do |program|
-    Program.create(name: program, 
-      desc: "An inside look at the highly-anticipated upcoming film Snake Eyes: G.I Joe Origins—with special content and exclusive interviews",
-      sponsor: "Marvel", 
-      quantity_fan: 10, 
-      sits_available: 10,
-      room: Faker::Number.between(from: 1, to: 10), 
-      date: "08/30/2021",
-      startTime: DateTime.now,
-      endTime: DateTime.now,
-      image_url: "https://image.shutterstock.com/z/stock-photo-moscow-russia-march-marvel-logo-in-hamleys-store-marvel-comics-group-is-a-publisher-of-1073397620.jpg",
-      status: 1)
+publishers.each do |publisher|
+  Publisher.create(name: publisher, 
+      history: "DC Comics, Inc. is an American comic book publisher and the flagship unit of DC Entertainment,[4][5] a subsidiary of the Warner Bros. Global Brands and Experiences division of Warner Bros., which itself is a subsidiary of AT&T's WarnerMedia through its Studios & Networks division.",
+      founded: 2021, 
+      country: "United States", 
+      image_url: "https://image.shutterstock.com/z/stock-photo-moscow-russia-march-marvel-logo-in-hamleys-store-marvel-comics-group-is-a-publisher-of-1073397620.jpg"
+      )
 end
 
-puts "Seeding fan..."
-# Create 10 random Fans
+puts "Seeding characters..."
+# Create 10 random characters
 10.times do
-    Fan.create(name: Faker::Name.name, phone_number: Faker::PhoneNumber.cell_phone, email: Faker::Internet.email)
-end
-
-puts "Seeding registers..."
-# Create 20 random registers
-20.times do
-  # Get a Fan instance:
-  fan_id = Fan.ids.sample
-  # Get a program instance:
-  program_id = Program.ids.sample
-
-  # TODO: create registers! Remember, a registers belongs to a Fan
-  # and a register belongs to a program.
-  Register.create(program_id: program_id, fan_id: fan_id)
+  Character.create(name: Faker::DcComics.hero, 
+      creation: 2021,
+      history: "Superman is a fictional character and a superhero who first appeared in American comic books published by DC Comics. The character was created by writer Jerry Siegel and artist Joe Shuster, and debuted in the comic book Action Comics #1 (cover-dated June 1938 and published April 18, 1938).",
+      real_name: Faker::DcComics.name,
+      alignment: "Good",
+      image_url: "https://upload.wikimedia.org/wikipedia/en/3/35/Supermanflying.png")
 end
 
 puts "Done!"
