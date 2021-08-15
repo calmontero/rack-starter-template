@@ -4,7 +4,7 @@ class Application
     res = Rack::Response.new
     req = Rack::Request.new(env)
 
-    #PROGRAMS ROUTES
+    #PUBLISHERS ROUTES
 
     #Publishers Index
     if req.path == ("/publishers") && req.get?
@@ -31,15 +31,22 @@ class Application
       id = req.path.split("/")[2]
       begin
         publisher = Publisher.find(id)
+        characters = publisher.characters
+        publisher_res = {
+          name: publisher.name,
+          history: publisher.history,
+          url: publisher.image_url,
+          characters: characters
+        }
         return [
           200, { 'Content-Type' => 'application/json' }, 
-          [ publisher.to_json ]
+          [ publisher_res.to_json ]
         ]
       rescue
         return [
           404, 
           {'Content-Type' => 'application/json'}, 
-        [{message: "Program not found"}.to_json]]
+        [{message: "Publisher not found"}.to_json]]
       end
     end
 
@@ -114,8 +121,10 @@ class Application
     #Character Show
     if req.path.match("/characters/") && req.get?
       id = req.path.split("/")[2]
+      
       begin
-        character = Character.find(id)
+        #character = Character.find(id)
+        character = Character.where(publisher_id: id)
         return [
           200, { 'Content-Type' => 'application/json' }, 
           [ character.to_json ]

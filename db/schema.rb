@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_14_035739) do
+ActiveRecord::Schema.define(version: 2021_08_14_145332) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
@@ -19,28 +19,9 @@ ActiveRecord::Schema.define(version: 2021_08_14_035739) do
     t.string "real_name"
     t.string "alignment"
     t.string "image_url"
+    t.string "wikipedia_url"
     t.integer "publisher_id"
     t.index ["publisher_id"], name: "index_characters_on_publisher_id"
-  end
-
-  create_table "fans", force: :cascade do |t|
-    t.string "name"
-    t.integer "phone_number"
-    t.string "email"
-  end
-
-  create_table "programs", force: :cascade do |t|
-    t.string "name"
-    t.string "desc"
-    t.string "sponsor"
-    t.integer "quantity_fan"
-    t.integer "sits_available"
-    t.integer "room"
-    t.date "date"
-    t.time "startTime"
-    t.time "endTime"
-    t.string "image_url"
-    t.boolean "status"
   end
 
   create_table "publishers", force: :cascade do |t|
@@ -49,12 +30,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_035739) do
     t.integer "founded"
     t.string "country"
     t.string "image_url"
-  end
-
-  create_table "registers", force: :cascade do |t|
-    t.integer "program_id"
-    t.integer "fan_id"
-    t.date "register_date"
+    t.string "wikipedia_url"
   end
 
 end

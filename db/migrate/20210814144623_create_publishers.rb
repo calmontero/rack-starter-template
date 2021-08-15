@@ -6,6 +6,7 @@ class CreatePublishers < ActiveRecord::Migration[5.2]
       t.integer :founded
       t.string :country
       t.string :image_url
+      t.string :wikipedia_url
     end
   end
 end
